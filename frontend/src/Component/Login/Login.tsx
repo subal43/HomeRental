@@ -1,44 +1,40 @@
-
-
 import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
-
 import { Link, useNavigate } from 'react-router-dom';
 import { FaXmark } from "react-icons/fa6";
-import { useAuth } from '../Contexs/btnContex';       // Import the authentication context
+import { useAuth } from '../Contexs/btnContex';
 import Swal from 'sweetalert2';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const { setIsAuthenticated } = useAuth(); // No need to read `isAuthenticated`
+  const [isAnimating, setIsAnimating] = useState<boolean>(false);
+  const { setIsAuthenticated  } = useAuth();
   const navigate = useNavigate();
 
-
-  //  Force-clear fields when the component mounts
   useEffect(() => {
     setEmail('');
     setPassword('');
   }, []);
 
-
-
-
   const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Simulated login process
     if (email === 'tamalsarkar499@gmail.com' && password === 'password123') {
-      setIsAuthenticated(true); // Update global auth state
-      Swal.fire({
-        title: "Login successful",
-        icon: "success",
-        confirmButtonText: "OK",
-        buttonsStyling: false,
-        customClass: {
-          confirmButton: "bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-        }
-      });
-      navigate('/'); // Redirect to home page
+      setIsAuthenticated(true);
+      setIsAnimating(true); // Start animation
+     
+      setTimeout(() => {
+        Swal.fire({
+          title: "Login successful",
+          icon: "success",
+          confirmButtonText: "OK",
+          buttonsStyling: false,
+          customClass: {
+            confirmButton: "bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+          }
+        });
+        navigate('/');
+      }, 500); // Delay to let the animation play
     } else {
       Swal.fire({
         title: "Invalid email or password",
@@ -52,21 +48,13 @@ const Login: React.FC = () => {
     }
   };
 
-  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
-
-  const handleBlur = (e: ChangeEvent<HTMLInputElement>) => {
-    e.target.classList.remove('focus:border-green-800');
-  };
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
+  const handleBlur = (e: ChangeEvent<HTMLInputElement>) => e.target.classList.remove('focus:border-green-800');
 
   return (
     <div className='max-w-7xl m-auto p-8 text-center bg-white'>
-      <div className='flex justify-center items-center p-6 bg-gray-100 min-h-screen '>
+      <div className={`flex justify-center items-center p-6 bg-gray-100 min-h-screen transform transition-transform duration-500 ${isAnimating ? 'translate-y-full' : ''}`}>
         <div className='w-72 sm:w-96 relative bg-white border rounded-lg shadow-lg px-2 py-7 h-[30rem] flex flex-col justify-between'>
           <Link to="/" className='absolute right-4 top-6 hover:text-lg'>
             <FaXmark />
@@ -129,4 +117,3 @@ const Login: React.FC = () => {
 };
 
 export default Login;
-

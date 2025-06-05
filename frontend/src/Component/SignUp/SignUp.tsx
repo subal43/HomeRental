@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaXmark } from "react-icons/fa6";
 import { useAuth } from '../Contexs/btnContex';
 import Swal from 'sweetalert2';
+import { User } from 'lucide-react';
 
 const SignUp: React.FC = () => {
     const navigate = useNavigate();
@@ -10,8 +11,9 @@ const SignUp: React.FC = () => {
     const [lname, setLname] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
-    const { isAuthenticated, setIsAuthenticated } = useAuth();
+    const { isAuthenticated, setIsAuthenticated ,  user,  setUser } = useAuth();
 
     const handleSignUp = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -20,28 +22,32 @@ const SignUp: React.FC = () => {
         console.log("Last Name:", lname);
         console.log("Email:", email);
         console.log("Password:", password);
-
+       
         setIsAuthenticated(true);
+        setUser({name:fname})
+        setIsAnimating(true); // Trigger animation
 
-        Swal.fire({
-            title: "SignUp successful",
-            icon: "success",
-            confirmButtonText: "OK",
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: "bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-            }
-        });
+        setTimeout(() => {
+            Swal.fire({
+                title: "SignUp successful",
+                icon: "success",
+                confirmButtonText: "OK",
+                buttonsStyling: false,
+                customClass: {
+                    confirmButton: "bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                }
+            });
 
-        navigate('/');
+            navigate('/');
+        }, 500); // Wait for animation
     };
 
-    const handleChange = (setter: React.Dispatch<React.SetStateAction<string>>) => 
+    const handleChange = (setter: React.Dispatch<React.SetStateAction<string>>) =>
         (e: ChangeEvent<HTMLInputElement>) => setter(e.target.value);
 
     return (
         <div className='max-w-7xl m-auto p-8 text-center bg-white'>
-            <div className='flex justify-center items-center p-6 bg-gray-100 min-h-screen'>
+            <div className={`flex justify-center items-center p-6 bg-gray-100 min-h-screen transform transition-transform duration-500 ease-in-out ${isAnimating ? 'translate-y-full' : ''}`}>
                 <div className='w-72 sm:w-96 relative bg-white border rounded-lg shadow-lg px-2 py-7 flex flex-col justify-between'>
                     <Link to="/" className='absolute right-4 top-6 hover:text-lg'>
                         <FaXmark />
@@ -53,12 +59,8 @@ const SignUp: React.FC = () => {
                         </p>
                     </div>
                     <form onSubmit={handleSignUp} className='flex flex-col justify-evenly items-center p-6'>
-                        {/* First Name */}
-                        <div className="w-64">
-                            <div className='w-full flex items-center text-gray-700 font-semibold'>
+                        <div className="w-64 flex flex-col items-start">
                             <label htmlFor="Fname" className="text-gray-700 font-semibold">First Name:</label>
-
-                            </div>
                             <input
                                 type="text"
                                 name="Fname"
@@ -71,12 +73,8 @@ const SignUp: React.FC = () => {
                             />
                         </div>
 
-                        {/* Last Name */}
-                        <div className="w-64">
-                            <div className='w-full flex items-center text-gray-700 font-semibold'>
-
+                        <div className="w-64 flex flex-col items-start">
                             <label htmlFor="Lname" className="text-gray-700 font-semibold">Last Name:</label>
-                            </div>
                             <input
                                 type="text"
                                 name="Lname"
@@ -89,12 +87,8 @@ const SignUp: React.FC = () => {
                             />
                         </div>
 
-                        {/* Email */}
-                        <div className="w-64">
-                            <div className='w-full flex items-center text-gray-700 font-semibold'>
-
+                        <div className="w-64 flex flex-col items-start">
                             <label htmlFor="email" className="text-gray-700 font-semibold">Email:</label>
-                            </div>
                             <input
                                 type="email"
                                 name="email"
@@ -107,12 +101,8 @@ const SignUp: React.FC = () => {
                             />
                         </div>
 
-                        {/* Password */}
-                        <div className="w-64">
-                            <div className='w-full flex items-center text-gray-700 font-semibold'>
+                        <div className="w-64 flex flex-col items-start">
                             <label htmlFor="psw" className="text-gray-700 font-semibold">Password:</label>
-
-                            </div>
                             <input
                                 type="password"
                                 name="password"
@@ -125,8 +115,7 @@ const SignUp: React.FC = () => {
                             />
                         </div>
 
-                        {/* Submit Button */}
-                        <div className='w-64'>
+                        <div className='w-64 flex flex-col items-start'>
                             <button
                                 type="submit"
                                 className='w-full mt-4 bg-green-700 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-900 focus:outline-none transition duration-300 ease-in-out'
@@ -135,7 +124,6 @@ const SignUp: React.FC = () => {
                             </button>
                         </div>
 
-                        {/* Login Link */}
                         <div className='w-64 gap-2 mt-2 flex items-center'>
                             <p className='text-gray-600 text-sm font-medium'>Already have an account?</p>
                             <Link to="/Login" className='text-gray-600 text-sm font-medium hover:text-green-900 hover:underline'>

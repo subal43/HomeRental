@@ -38,15 +38,20 @@ export const Header = () => {
                             <Link to="/" className="  w-full text-center py-3 px-6 rounded-lg hover:bg-green-600 hover:text-white transition-all cursor-pointer">Home</Link>
                         </li>
                         <li className='list-none'>
-                            <Link to="/about" className="  w-full text-center py-3 px-6 rounded-lg hover:bg-green-600 hover:text-white transition-all cursor-pointer">Rent</Link>
+                            <Link to="/rent" className="  w-full text-center py-3 px-6 rounded-lg hover:bg-green-600 hover:text-white transition-all cursor-pointer">Rent</Link>
                         </li>
                         <li className='list-none'>
                             <Link to="/review" className="  w-full text-center py-3 px-6 rounded-lg hover:bg-green-600 hover:text-white transition-all cursor-pointer">Review</Link>
                         </li>
-                        
+
                         <li className='list-none'>
                             <Link to="/post" className="  text-white  bg-red-600 hover:bg-red-700 font-medium rounded-lg px-4 py-2 text-base cursor-pointer">Post Properties</Link>
                         </li>
+
+
+
+
+
                         <li className='list-none'>
                             <div className='flex flex-col items-center md:hidden'>
 
@@ -56,11 +61,21 @@ export const Header = () => {
                                         <Link to="/SignUp" className='text-white  bg-red-600 hover:bg-red-700     font-medium rounded-lg px-4 py-2 text-sm '>Sign up</Link>
                                     </div>
                                 ) : (
-                                    <button
-                                        onClick={handleLogout}
-                                        className='text-white bg-red-600 hover:bg-red-700  font-medium rounded-lg px-4 py-2 text-sm'>
-                                        Log out
-                                    </button>
+                                    <div>
+                                        {isAuthenticated && (
+                                            <NavLink to="/admin" className="text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg px-4 py-2 text-sm mr-3">
+                                                Admin
+                                            </NavLink>
+                                        )}
+
+
+                                        <button
+                                            onClick={handleLogout}
+                                            className='text-white bg-red-600 hover:bg-red-700  font-medium rounded-lg px-4 py-2 text-sm'>
+                                            Log out
+                                        </button>
+
+                                    </div>
                                 )}
                             </div>
 
@@ -105,21 +120,36 @@ export const Header = () => {
 
                             </li>
                             <li>
-                                <NavLink to="/about" className={({ isActive }) =>
-                                        `block py-2 pr-3 pl-4 border-b-2 ${isActive ? "border-green-700 text-gray-800" : "border-transparent text-gray-900"
-                                        } hover:border-green-700 hover:text-gray-800 transition-all duration-300 lg:border-0 lg:border-b-2`
-                                    }>Rent</NavLink>
+                                <NavLink to="/rent" className={({ isActive }) =>
+                                    `block py-2 pr-3 pl-4 border-b-2 ${isActive ? "border-green-700 text-gray-800" : "border-transparent text-gray-900"
+                                    } hover:border-green-700 hover:text-gray-800 transition-all duration-300 lg:border-0 lg:border-b-2`
+                                }>Rent</NavLink>
                             </li>
                             <li>
                                 <NavLink to="/review" className={({ isActive }) =>
-                                        `block py-2 pr-3 pl-4 border-b-2 ${isActive ? "border-green-700 text-gray-800" : "border-transparent text-gray-900"
-                                        } hover:border-green-700 hover:text-gray-800 transition-all duration-300 lg:border-0 lg:border-b-2`
-                                    }>Review</NavLink>
+                                    `block py-2 pr-3 pl-4 border-b-2 ${isActive ? "border-green-700 text-gray-800" : "border-transparent text-gray-900"
+                                    } hover:border-green-700 hover:text-gray-800 transition-all duration-300 lg:border-0 lg:border-b-2`
+                                }>Review</NavLink>
                             </li>
                             <li>
                                 <NavLink to="/post" className="text-white  bg-red-600 hover:bg-red-700 font-medium rounded-lg px-4 py-2 text-sm">Post Properties</NavLink>
                             </li>
-                            
+                            <li>
+                                
+
+
+                                    {
+                                        isAuthenticated && (
+
+                                    <NavLink to="/admin" className="text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg px-4 py-2 text-sm mr-3">
+                                        Admin
+                                    </NavLink>
+                                            
+                                        )
+                                    }
+                                
+                            </li>
+
                         </ul>
                     </div>
 
