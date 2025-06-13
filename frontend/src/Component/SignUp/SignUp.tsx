@@ -8,7 +8,7 @@ import { User } from 'lucide-react';
 const SignUp: React.FC = () => {
     const navigate = useNavigate();
     const [fname, setFname] = useState<string>("");
-    const [lname, setLname] = useState<string>("");
+    const [ph, setPh] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [isAnimating, setIsAnimating] = useState<boolean>(false);
@@ -19,7 +19,7 @@ const SignUp: React.FC = () => {
         event.preventDefault();
 
         console.log("First Name:", fname);
-        console.log("Last Name:", lname);
+        console.log("Moblie no:", ph);
         console.log("Email:", email);
         console.log("Password:", password);
        
@@ -60,7 +60,7 @@ const SignUp: React.FC = () => {
                     </div>
                     <form onSubmit={handleSignUp} className='flex flex-col justify-evenly items-center p-6'>
                         <div className="w-64 flex flex-col items-start">
-                            <label htmlFor="Fname" className="text-gray-700 font-semibold">First Name:</label>
+                            <label htmlFor="Fname" className="text-gray-700 font-semibold">Full Name:</label>
                             <input
                                 type="text"
                                 name="Fname"
@@ -74,14 +74,14 @@ const SignUp: React.FC = () => {
                         </div>
 
                         <div className="w-64 flex flex-col items-start">
-                            <label htmlFor="Lname" className="text-gray-700 font-semibold">Last Name:</label>
+                            <label htmlFor="ph" className="text-gray-700 font-semibold">Mobile no:</label>
                             <input
-                                type="text"
-                                name="Lname"
-                                id="Lname"
-                                value={lname}
-                                onChange={handleChange(setLname)}
-                                autoComplete="family-name"
+                                type="tel"
+                                name="ph"
+                                id="ph"
+                                value={ph}
+                                onChange={handleChange(setPh)}
+                                autoComplete="ph"
                                 required
                                 className="w-full border border-gray-400 mt-2 px-2 py-2 rounded text-gray-700 bg-white font-medium focus:outline-none focus:border-green-800"
                             />

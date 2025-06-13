@@ -5,11 +5,12 @@ import { motion } from "framer-motion";
 
 export default function Post() {
   const [form, setForm] = useState({
-    owner: "",
-    contact: "",
+ 
+    type: "",
     category: "",
     pgGender: "",
-    bad_bath_room:"",
+    room: "",
+    washroom: "",
     description: "",
     price: "",
     location: "",
@@ -19,11 +20,12 @@ export default function Post() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const initialFormState = {
-    owner: "",
-    contact: "",
+ 
+    type: "",
     category: "",
     pgGender: "",
-    bad_bath_room:"",
+    room: "",
+    washroom: "",
     description: "",
     price: "",
     location: "",
@@ -145,24 +147,36 @@ export default function Post() {
               Create a Rent Listing
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <input
-                name="owner"
-                placeholder="Owner name"
-                value={form.owner}
-                onChange={handleChange}
-                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
-                disabled={!isAuthenticated}
-              />
-              <input
-                name="contact"
-                placeholder="Contact"
-                value={form.contact}
-                onChange={handleChange}
-                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
-                disabled={!isAuthenticated}
-              />
+        
+            
 
+              <div className="flex px-4 items-center space-x-6">
+                <p className="text-sm font-medium text-gray-600 mb-2">
+                  type:
+                </p>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="type"
+                    value="apartment"
 
+                    className="accent-green-800"
+                    disabled={!isAuthenticated}
+                  />
+                  <span className="text-gray-600 font-medium">Apartment</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="type"
+                    value="boys"
+
+                    className="accent-green-800"
+                    disabled={!isAuthenticated}
+                  />
+                  <span className="text-gray-600 font-medium">House</span>
+                </label>
+              </div>
               <select
                 name="category"
                 value={form.category}
@@ -212,15 +226,30 @@ export default function Post() {
                 </div>
               )}
 
-                <input
-                name="bad_bath_room"
-                placeholder="No. of Bedrooms and Bathrooms"
-                value={form.bad_bath_room}
+              <select
+                name="category"
+                value={form.room}
+                onChange={handleChange}
+                className="w-full p-3 border text-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
+                disabled={!isAuthenticated}
+              >
+                <option value="">Select room </option>
+                <option value="individual">1 BHK</option>
+                <option value="individual">2 BHK</option>
+                <option value="family">3 BHK</option>
+                <option value="pg">4+ BHK</option>
+
+              </select>
+
+              <input
+                name="washroom"
+                placeholder="washroom"
+                value={form.washroom}
                 onChange={handleChange}
                 className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
                 disabled={!isAuthenticated}
               />
-                <input
+              <input
                 name="description"
                 placeholder="Description"
                 value={form.description}
@@ -284,7 +313,7 @@ export default function Post() {
 
               <button
                 type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition"
+                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition"
               >
                 Submit Listing
               </button>
