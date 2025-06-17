@@ -1,6 +1,6 @@
 {
   "name": "@subal999/homerent-package",
-  "version": "1.0.2",
+  "version": "1.0.13",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
