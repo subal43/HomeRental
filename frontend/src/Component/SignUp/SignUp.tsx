@@ -1,12 +1,12 @@
 import React, { useState, FormEvent, ChangeEvent } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate} from 'react-router-dom';
 import { FaXmark } from "react-icons/fa6";
 import { useAuth } from '../Contexs/btnContex';
 import Swal from 'sweetalert2';
 import { User } from 'lucide-react';
 
 const SignUp: React.FC = () => {
-    const navigate = useNavigate();
+ 
     const [fname, setFname] = useState<string>("");
     const [ph, setPh] = useState<string>("");
     const [email, setEmail] = useState<string>("");
@@ -14,6 +14,12 @@ const SignUp: React.FC = () => {
     const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
     const { isAuthenticated, setIsAuthenticated ,  user,  setUser } = useAuth();
+
+    const location = useLocation();
+const navigate = useNavigate();
+
+
+const redirectTo = new URLSearchParams(location.search).get('redirect') || '/';
 
     const handleSignUp = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();

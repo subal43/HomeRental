@@ -1,16 +1,27 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../Contexs/btnContex'; // Import the authentication context
 import { BsList } from "react-icons/bs";
 import { FaXmark } from "react-icons/fa6";
+import { useSubmission } from '../Contexs/SubmissionContext';
 
 export const Header = () => {
-    const { isAuthenticated, setIsAuthenticated } = useAuth();
+    const { isAuthenticated, setIsAuthenticated, setUser } = useAuth();
     const [isManuOpen, setIsManuOpen] = useState(false);
+    const { hasSubmitted, resetSubmission } = useSubmission();
 
     const handleLogout = () => {
-        setIsAuthenticated(false); // Reset authentication state
+        setIsAuthenticated(false);
+        setUser(null);
+        localStorage.removeItem("isAuthenticated");
+        localStorage.removeItem("currentUser");
+
+        // reset admin button visibility
+        resetSubmission();
     };
+
+
+
 
     return (
         <header className='shadow sticky z-50 top-0 w-[46rem] sm:w-[57rem] px-11 bg-white lg:w-full md:w-[70rem] '>
@@ -18,7 +29,7 @@ export const Header = () => {
                 <div className='flex flex-wrap justify-between items-center mx-auto max-w-screen-xl'>
 
                     <Link to="/" className="flex items-center">
-                        <img src="./RENT_CAR.jpg" className="mr-3 w-16 h-16 rounded-full" alt="Logo" />
+                        <img src="logo.png" className="mr-3 w-16 h-16 rounded-full" alt="Logo" />
                         <h2 className="text-2xl font-bold text-gray-500">Home<span className='text-red-700'>Rental</span></h2>
                     </Link>
                     <div className='relative left-36 flex justify-between items-center '>
@@ -135,19 +146,20 @@ export const Header = () => {
                                 <NavLink to="/post" className="text-white  bg-red-600 hover:bg-red-700 font-medium rounded-lg px-4 py-2 text-sm">Post Properties</NavLink>
                             </li>
                             <li>
-                                
 
 
-                                    {
-                                        isAuthenticated && (
+                                {hasSubmitted && (
 
                                     <NavLink to="/admin" className="text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg px-4 py-2 text-sm mr-3">
                                         Admin
                                     </NavLink>
-                                            
-                                        )
-                                    }
-                                
+                                )
+
+                                }
+
+
+
+
                             </li>
 
                         </ul>

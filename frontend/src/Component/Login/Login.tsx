@@ -5,11 +5,13 @@ import { useAuth } from '../Contexs/btnContex';
 import Swal from 'sweetalert2';
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
+ const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const { setIsAuthenticated  } = useAuth();
   const navigate = useNavigate();
+
+
 
   useEffect(() => {
     setEmail('');
@@ -47,6 +49,7 @@ const Login: React.FC = () => {
       });
     }
   };
+
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
