@@ -14,5 +14,13 @@
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx"
   },
+
+  
+  "define": {
+    "global": "globalThis",
+  },
+  "optimizeDeps": {
+    "include": ["buffer"],
+  },
   
 }
