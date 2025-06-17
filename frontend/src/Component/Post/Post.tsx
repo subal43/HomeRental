@@ -2,12 +2,19 @@ import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../Contexs/btnContex";
 import { motion } from "framer-motion";
+import Swal from "sweetalert2";
+import "sweetalert2/src/sweetalert2.scss";
+import { useSubmission } from "../Contexs/SubmissionContext";
+
+
+
+
 
 export default function Post() {
   const [form, setForm] = useState({
  
     type: "",
-    category: "",
+    category: "",						//post
     pgGender: "",
     room: "",
     washroom: "",
@@ -33,8 +40,10 @@ export default function Post() {
     photos: [] as string[],
   };
 
-  const { isAuthenticated, setIsAuthenticated } = useAuth();
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  const { isAuthenticated, setIsAuthenticated ,user } = useAuth();
+  const [showSignUpModal, setShowSignUpModal] = useState(false);
+  const { markSubmission } = useSubmission();
+
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -55,47 +64,76 @@ export default function Post() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!isAuthenticated) {
-      setShowLoginModal(true);
-      return;
-    }
+  if (!isAuthenticated) {
+    setShowSignUpModal(true);
+    return;
+  }
 
-    // Submit logic here
-    setForm(initialFormState);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  };
 
+// 🟢 Mark submission status true
+  if (user?.name) {
+    markSubmission(true, user.name);
+  }
+
+
+
+
+  // Submit logic here
+  // Simulate form submission delay
+  //await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  // Reset form
+  setForm(initialFormState);
+  if (fileInputRef.current) {
+    fileInputRef.current.value = "";
+  }
+
+  // Show success popup using SweetAlert2
+  Swal.fire({
+    title: "Submitted!",
+    text: "Your property listing has been successfully posted.",
+    icon: "success",
+    confirmButtonColor: "#10B981", // Tailwind green-600
+    confirmButtonText: "Awesome!",
+    customClass: {
+      popup: "rounded-2xl shadow-lg border border-green-300",
+      title: "text-green-700 font-bold text-xl",
+      htmlContainer: "text-gray-600 text-sm",
+      confirmButton: "bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md",
+    },
+  });
+};
+
+  
   return (
     <div className="relative from-indigo-50 to-white min-h-screen w-[46rem] sm:w-[57rem] md:w-[70rem] lg:w-full">
-      {/* Login Modal */}
-      {showLoginModal && (
+      {/* SignUP Modal */}
+      {showSignUpModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
           <div className="bg-white p-6 rounded-xl shadow-xl max-w-sm w-full">
             <h3 className="text-lg font-semibold mb-2 text-red-700">
-              Login Required
+              Sign UP Required
             </h3>
             <p className="text-sm text-gray-600 mb-4">
-              Please login then to submit a rental listing.
+              Please Sign up then to submit a rental listing.
             </p>
             <div className="flex justify-end gap-2">
               <button
-                onClick={() => setShowLoginModal(false)}
+                onClick={() => setShowSignUpModal(false)}
                 className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md"
               >
                 Cancel
               </button>
               <Link
-                to="/Login"
+                to="/SignUp"
                 onClick={() => {
-                  setShowLoginModal(false);
+                  setShowSignUpModal(false);
                 }}
                 className="px-4 py-2 bg-green-800 text-white rounded-md"
               >
-                Go to Login
+                Go to Sign UP
               </Link>
             </div>
           </div>
@@ -227,17 +265,17 @@ export default function Post() {
               )}
 
               <select
-                name="category"
+                name="room"
                 value={form.room}
                 onChange={handleChange}
                 className="w-full p-3 border text-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
                 disabled={!isAuthenticated}
               >
                 <option value="">Select room </option>
-                <option value="individual">1 BHK</option>
-                <option value="individual">2 BHK</option>
-                <option value="family">3 BHK</option>
-                <option value="pg">4+ BHK</option>
+                <option value="1 BHK">1 BHK</option>
+                <option value="2 BHK">2 BHK</option>
+                <option value="3 BHK">3 BHK</option>
+                <option value="4+ BHK">4+ BHK</option>
 
               </select>
 
